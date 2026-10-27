@@ -1,0 +1,56 @@
+.chart { margin: 0; }
+
+.plot { position: relative; padding-top: 1.25rem; }
+
+.max {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 11rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.column {
+  flex: 1 1 0;
+  min-width: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  position: relative;
+}
+
+.bar {
+  width: 100%;
+  background: var(--level-bg);
+  border-radius: 4px 4px 0 0;
+  min-height: 2px;
+}
+
+.label {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 0.2rem;
+  text-align: center;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.label.hidden { visibility: hidden; }
+
+figcaption {
+  margin-top: 1.6rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-align: center;
+}

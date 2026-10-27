@@ -1,0 +1,50 @@
+.summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 1rem;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 1.1rem 1.25rem;
+  text-align: left;
+  font: inherit;
+  color: var(--level-fg);
+  background: var(--level-bg);
+  border: 3px solid transparent;
+  border-radius: 1.1rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.card:hover { transform: translateY(-3px); box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2); }
+.card:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.card.selected { border-color: var(--text); }
+
+.card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.disease { font-size: 1.15rem; font-weight: 700; }
+
+.badge {
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  background: rgba(0, 0, 0, 0.22);
+}
+
+.week { font-size: 0.9rem; opacity: 0.95; }
+.week small { opacity: 0.85; }
+
+.stat { display: flex; flex-direction: column; }
+.value { font-size: 2rem; font-weight: 700; line-height: 1.1; }
+.secondary .value { font-size: 1.35rem; }
+.caption { font-size: 0.8rem; opacity: 0.9; }

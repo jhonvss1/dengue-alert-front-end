@@ -1,0 +1,12 @@
+<figure class="chart" *ngIf="bars.length">
+  <div class="plot" role="img" [attr.aria-label]="summary">
+    <span class="max">{{ max | number: '1.0-0' }}</span>
+    <div class="bars">
+      <div class="column" *ngFor="let bar of bars" [title]="bar.tooltip">
+        <div class="bar" [ngClass]="bar.cssClass" [style.height.%]="bar.heightPercent"></div>
+        <span class="label" [class.hidden]="!bar.showLabel">{{ bar.week }}</span>
+      </div>
+    </div>
+  </div>
+  <figcaption>Casos estimados por semana epidemiológica</figcaption>
+</figure>

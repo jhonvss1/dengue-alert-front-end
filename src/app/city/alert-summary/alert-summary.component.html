@@ -1,0 +1,34 @@
+<div class="summary" role="group" aria-label="Situação mais recente por doença">
+  <button
+    type="button"
+    class="card"
+    *ngFor="let item of items"
+    [ngClass]="item.alert ? levelInfo(item.alert.alertLevel).cssClass : 'level-gray'"
+    [class.selected]="item.disease === selected"
+    [attr.aria-pressed]="item.disease === selected"
+    (click)="selectedChange.emit(item.disease)"
+  >
+    <span class="card-head">
+      <span class="disease">{{ item.label }}</span>
+      <span class="badge" *ngIf="item.alert">{{ levelInfo(item.alert.alertLevel).label }}</span>
+    </span>
+
+    <ng-container *ngIf="item.alert; else noData">
+      <span class="week">
+        Semana {{ item.alert.week }}/{{ item.alert.year }}
+        <small *ngIf="item.alert.weekStart">({{ rangeLabel(item.alert.weekStart) }})</small>
+      </span>
+      <span class="stat">
+        <span class="value">{{ item.alert.estimatedCases | number: '1.0-0' }}</span>
+        <span class="caption">casos estimados</span>
+      </span>
+      <span class="stat secondary">
+        <span class="value">{{ item.alert.reportedCases | number: '1.0-0' }}</span>
+        <span class="caption">notificados</span>
+      </span>
+    </ng-container>
+    <ng-template #noData>
+      <span class="week">Sem dados no período</span>
+    </ng-template>
+  </button>
+</div>
