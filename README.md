@@ -1,70 +1,57 @@
-# DengueAlertApiFrontEnd 
+# Alerta Dengue — front-end
 
-<h2>Introdução</h2>
-API FrontEnd desenvolvida para exibir dados das semanas epidemologias dos casos de Dengue. Facilitando o entendimento do usuário quando se visualiza os dados em questão. Usa o metódo HTTP para fazer as requisições batendo no endpoint da API que já está pronta e vocês podem encontrar aqui: https://github.com/jhonvss1/DengueAlertApiBackEnd
+Aplicação Angular que mostra a situação semanal de **dengue, chikungunya e zika** em qualquer município do Brasil,
+consumindo a [dengue-alert-api](https://github.com/jhonvss1/dengue-alert-api).
 
+## Funcionalidades
 
-## Tecnologias usadas
+- Busca de município por nome, com filtro opcional por estado (autocomplete com navegação por teclado).
+- Cartões com a semana mais recente de cada doença e seu nível de alerta (baixo, moderado, alto, crítico).
+- Gráfico e tabela do histórico semanal da doença selecionada, com período de 4, 12, 26 ou 52 semanas.
+- Link compartilhável: `/cidade/3106200?disease=zika&weeks=26`. A última cidade consultada é lembrada.
+- Avisos de primeira consulta demorada, dados desatualizados e erros da API; tema claro/escuro e layout responsivo.
 
-Framework (Angular na versão 16.2.16)
+## Desenvolvimento
 
-Cliente HTTP 
+Requisitos: Node 18+ e a API rodando (veja o README dela).
 
-## Instalação 
- Para fazer a utilização dessa API você deve seguir os passos abaixo: 
-````
-# Clone o repositório
-git clone https://github.com/jhonvss1/DengueAlertApiFrontEnd
-# Acesse o diretório do projeto
-cd nome-do-repositorio
+```bash
+npm ci
+npm start            # http://localhost:4200, API esperada em http://localhost:5270
+npm test             # testes (Karma/Jasmine)
+npm test -- --watch=false --browsers=ChromeHeadlessCI   # sem interface, para CI
+```
 
-# Instale as dependências
-npm install  # ou yarn install
-````
+A URL da API fica em `src/environment/environment.ts` (desenvolvimento) e `environment.prod.ts` (produção,
+substituído automaticamente no `npm run build`).
 
-## Configuração 
-````
-API_BASE_URL = https://localhost:7024/api/Dengue/
-````
+## Deploy no Cloudflare Pages
 
-## 🔌 Uso
-  Para obter dados:
-````
-  getAllAlerts(): Observable<DengueAlert[]> {
-    return this.http.get<DengueAlert[]>(this.apiUrl);
-  }
-````
+Em *Workers & Pages → Create → Pages → Connect to Git*, escolha este repositório e configure:
 
-## Estrutura do projeto 
-````
-├── src/
-│   ├── app/
-│   │   ├── cards/dengue/
-│   │   │   ├── dengue.component.css
-│   │   │   ├── dengue.component.html
-│   │   │   ├── dengue.component.ts
-│   │   │   ├── dengue.module.ts
-│   │   ├── model/
-│   │   │   ├── dengue-alert.ts
-│   │   ├── services/
-│   │   │   ├── dengue.service.ts
-│   │   ├── utils/
-│   │   │   ├── date-util.ts
-│   │   ├── app-routing.module.ts
-│   │   ├── app.component.css
-│   │   ├── app.component.html
-│   │   ├── app.component.spec.ts
-│   │   ├── app.component.ts
-│   │   ├── app.module.ts
-│   ├── assets/
-│   ├── environment/
-│   │   ├── environment.ts
-│   ├── favicon.ico
-│   ├── index.html
-│   ├── main.ts
-│   ├── styles.css
-├── .editorconfig
-├── package.json
-└── README.md
-````
-Feito por mim. Pode ficar a vontade para usá-lo e contribuir comigo neste projeto. 
+| Campo | Valor |
+|---|---|
+| Production branch | `main` |
+| Build command | `npm ci && npm run build` |
+| Build output directory | `dist/dengue-alert-api-front-end` |
+| Variável de ambiente | `NODE_VERSION` = `20` |
+
+Depois, em *Custom domains*, adicione `dengue.brago.com.br` (a Cloudflare cria o registro DNS automaticamente).
+Sem arquivo `404.html`, o Pages já responde `index.html` para rotas desconhecidas, o que faz as rotas do Angular
+funcionarem ao abrir/atualizar `/cidade/...`.
+
+Na API, libere essa origem no CORS (`CORS_ORIGIN=https://dengue.brago.com.br`).
+
+## Estrutura
+
+```
+src/app/
+├── city/
+│   ├── city-page/       página da cidade (carga, filtros, erros)
+│   ├── city-search/     autocomplete de município
+│   ├── alert-summary/   cartões por doença
+│   └── weekly-chart/    gráfico de barras semanal
+├── model/               tipos da API, doenças e níveis de alerta
+├── services/            AlertsApiService (HTTP)
+└── utils/               datas em UTC e rótulo de semana
+```
