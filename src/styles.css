@@ -1,1 +1,73 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --bg: #f4f7fa;
+  --surface: #ffffff;
+  --surface-alt: #eef3f7;
+  --text: #1c2733;
+  --text-muted: #566676;
+  --border: #d5dee7;
+  --accent: #1769aa;
+  --accent-soft: #e2effa;
+  --danger: #b3261e;
+  --warning-bg: #fff4d6;
+  --warning-text: #5c4200;
+
+  --level-green: #2e7d32;
+  --level-yellow: #f9a825;
+  --level-orange: #ef6c00;
+  --level-red: #c62828;
+  --level-gray: #6b7782;
+  --on-level-yellow: #2b2100;
+  --on-level: #ffffff;
+
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #11181f;
+    --surface: #1a232d;
+    --surface-alt: #222d39;
+    --text: #e7edf3;
+    --text-muted: #9fb0bf;
+    --border: #2f3d4b;
+    --accent: #6cb4ee;
+    --accent-soft: #1f3447;
+    --danger: #f2b8b5;
+    --warning-bg: #3a2f10;
+    --warning-text: #f5deb0;
+  }
+}
+
+* { box-sizing: border-box; }
+
+html, body { margin: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Segoe UI', system-ui, -apple-system, Roboto, 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 { line-height: 1.2; }
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Cores por nível de alerta, reutilizadas pelos componentes */
+.level-green { --level-bg: var(--level-green); --level-fg: var(--on-level); }
+.level-yellow { --level-bg: var(--level-yellow); --level-fg: var(--on-level-yellow); }
+.level-orange { --level-bg: var(--level-orange); --level-fg: var(--on-level); }
+.level-red { --level-bg: var(--level-red); --level-fg: var(--on-level); }
+.level-gray { --level-bg: var(--level-gray); --level-fg: var(--on-level); }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
