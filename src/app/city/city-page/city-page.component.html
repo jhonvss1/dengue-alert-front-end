@@ -1,0 +1,88 @@
+<section class="search-panel" aria-label="Escolher cidade">
+  <app-city-search [currentCity]="city" (citySelected)="onCitySelected($event)"></app-city-search>
+</section>
+
+<section class="empty" *ngIf="state.kind === 'empty'">
+  <h2>Acompanhe dengue, chikungunya e zika na sua cidade</h2>
+  <p>Escolha um município acima para ver a situação mais recente e o histórico semanal de casos.</p>
+</section>
+
+<section class="loading" *ngIf="state.kind === 'loading'" role="status" aria-live="polite">
+  <div class="spinner" aria-hidden="true"></div>
+  <p>Carregando dados…</p>
+  <p class="slow" *ngIf="slowLoad">
+    Esta é a primeira consulta desta cidade: estamos buscando os dados na fonte (InfoDengue). Pode levar alguns segundos.
+  </p>
+</section>
+
+<section class="error" *ngIf="state.kind === 'error'" role="alert">
+  <p>{{ state.message }}</p>
+  <button type="button" (click)="retry()">Tentar novamente</button>
+</section>
+
+<ng-container *ngIf="data as d">
+  <header class="city-header">
+    <div>
+      <h2>{{ d.city.name }} <span class="uf">{{ d.city.state }}</span></h2>
+      <p class="updated" *ngIf="lastSyncedAt as updated">
+        Dados atualizados em {{ updated | date: "dd/MM/yyyy 'às' HH:mm" }}
+      </p>
+    </div>
+
+    <label class="weeks">
+      <span>Período</span>
+      <select (change)="onWeeksChange($any($event.target).value)">
+        <option *ngFor="let option of weekOptions" [value]="option" [selected]="option === weeks">
+          Últimas {{ option }} semanas
+        </option>
+      </select>
+    </label>
+  </header>
+
+  <p class="stale" *ngIf="d.isStale" role="status">
+    Não conseguimos atualizar os dados agora. Estes são os últimos dados salvos e podem estar desatualizados.
+  </p>
+
+  <app-alert-summary [alerts]="d.alerts" [selected]="disease" (selectedChange)="onDiseaseChange($event)">
+  </app-alert-summary>
+
+  <section class="history" [attr.aria-label]="'Histórico de ' + diseaseLabel(disease)">
+    <h3>{{ diseaseLabel(disease) }} — últimas {{ weeks }} semanas</h3>
+
+    <p class="no-data" *ngIf="!selectedAlerts.length">Sem dados de {{ diseaseLabel(disease) }} para o período.</p>
+
+    <ng-container *ngIf="selectedAlerts.length">
+      <app-weekly-chart [alerts]="selectedAlerts"></app-weekly-chart>
+
+      <div class="table-wrapper">
+        <table>
+          <caption class="sr-only">Histórico semanal de {{ diseaseLabel(disease) }}</caption>
+          <thead>
+            <tr>
+              <th scope="col">Semana</th>
+              <th scope="col">Período</th>
+              <th scope="col" class="num">Casos estimados</th>
+              <th scope="col" class="num">Notificados</th>
+              <th scope="col" class="num">Incidência / 100 mil</th>
+              <th scope="col">Nível</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let alert of selectedAlerts; trackBy: trackByWeek">
+              <th scope="row">{{ alert.week }}/{{ alert.year }}</th>
+              <td>{{ rangeLabel(alert.weekStart) }}</td>
+              <td class="num">{{ alert.estimatedCases | number: '1.0-0' }}</td>
+              <td class="num">{{ alert.reportedCases | number: '1.0-0' }}</td>
+              <td class="num">{{ alert.incidencePer100k === null ? '—' : (alert.incidencePer100k | number: '1.0-1') }}</td>
+              <td>
+                <span class="level" [ngClass]="levelInfo(alert.alertLevel).cssClass">
+                  {{ levelInfo(alert.alertLevel).label }}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ng-container>
+  </section>
+</ng-container>
