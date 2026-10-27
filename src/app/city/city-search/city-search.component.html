@@ -1,0 +1,56 @@
+<div class="city-search">
+  <label class="field state-field">
+    <span class="label">Estado</span>
+    <select [formControl]="state" aria-label="Filtrar por estado">
+      <option value="">Todos</option>
+      <option *ngFor="let uf of states" [value]="uf">{{ uf }}</option>
+    </select>
+  </label>
+
+  <div class="field city-field">
+    <label class="label" for="city-input">Cidade</label>
+    <input
+      id="city-input"
+      type="search"
+      role="combobox"
+      autocomplete="off"
+      placeholder="Digite o nome da cidade"
+      aria-autocomplete="list"
+      aria-controls="city-listbox"
+      [attr.aria-expanded]="showList"
+      [attr.aria-activedescendant]="activeIndex >= 0 ? 'city-option-' + activeIndex : null"
+      [formControl]="term"
+      (focus)="open = true"
+      (input)="open = true"
+      (blur)="open = false"
+      (keydown)="onKeydown($event)"
+    />
+
+    <ul id="city-listbox" class="results" role="listbox" *ngIf="showList">
+      <li class="status" *ngIf="searchState.kind === 'loading'">Buscando…</li>
+      <li class="status error" *ngIf="searchState.kind === 'error'">
+        Não foi possível buscar as cidades. Tente novamente.
+      </li>
+      <li class="status" *ngIf="searchState.kind === 'results' && !cities.length">
+        Nenhuma cidade encontrada.
+      </li>
+      <li
+        *ngFor="let city of cities; let i = index; trackBy: trackByGeocode"
+        role="option"
+        class="option"
+        [id]="'city-option-' + i"
+        [class.active]="i === activeIndex"
+        [attr.aria-selected]="i === activeIndex"
+        (mousedown)="$event.preventDefault(); select(city)"
+      >
+        <span>{{ city.name }}</span>
+        <span class="uf">{{ city.state }}</span>
+      </li>
+      <li class="status hint" *ngIf="searchState.kind === 'results' && searchState.total > cities.length">
+        Mostrando {{ cities.length }} de {{ searchState.total }}. Refine a busca para ver mais.
+      </li>
+    </ul>
+
+    <p class="help" *ngIf="!showList && !term.value">Digite ao menos 2 letras ou escolha um estado.</p>
+  </div>
+</div>
