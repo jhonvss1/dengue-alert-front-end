@@ -1,4 +1,19 @@
-<div class="background">
-    <app-dengue></app-dengue>
-    <router-outlet></router-outlet>
-</div>
+<header class="app-header">
+  <a class="brand" routerLink="/">
+    <span class="logo" aria-hidden="true">🦟</span>
+    <span>
+      <strong>{{ title }}</strong>
+      <small>Dengue, chikungunya e zika em todas as cidades do Brasil</small>
+    </span>
+  </a>
+</header>
+
+<main class="app-main">
+  <router-outlet></router-outlet>
+</main>
+
+<footer class="app-footer">
+  Dados:
+  <a href="https://info.dengue.mat.br/" target="_blank" rel="noopener noreferrer">InfoDengue</a>
+  · Casos estimados por modelo estatístico; consulte sempre as orientações da sua secretaria de saúde.
+</footer>

@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DengueComponent } from './cards/dengue/dengue.component';
+import { CityPageComponent } from './city/city-page/city-page.component';
 
 const routes: Routes = [
-  { path: '**', redirectTo: '' }, 
+  { path: '', component: CityPageComponent },
+  { path: 'cidade/:geocode', component: CityPageComponent },
+  { path: '**', redirectTo: '' },
 ];
 
 @NgModule({
