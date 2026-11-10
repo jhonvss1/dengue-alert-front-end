@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiBaseUrl: 'https://api-dengue.brago.com.br'
+  apiBaseUrl: 'https://api-dengue.braggo.com.br'
 };

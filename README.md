@@ -36,11 +36,11 @@ Em *Workers & Pages → Create → Pages → Connect to Git*, escolha este repos
 | Build output directory | `dist/dengue-alert-api-front-end` |
 | Variável de ambiente | `NODE_VERSION` = `20` |
 
-Depois, em *Custom domains*, adicione `dengue.brago.com.br` (a Cloudflare cria o registro DNS automaticamente).
+Depois, em *Custom domains*, adicione `dengue.braggo.com.br` (a Cloudflare cria o registro DNS automaticamente).
 Sem arquivo `404.html`, o Pages já responde `index.html` para rotas desconhecidas, o que faz as rotas do Angular
 funcionarem ao abrir/atualizar `/cidade/...`.
 
-Na API, libere essa origem no CORS (`CORS_ORIGIN=https://dengue.brago.com.br`).
+Na API, libere essa origem no CORS (`CORS_ORIGIN=https://dengue.braggo.com.br`).
 
 ## Estrutura
 
