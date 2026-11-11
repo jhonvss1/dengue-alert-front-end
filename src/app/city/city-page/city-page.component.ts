@@ -35,6 +35,8 @@ export function errorMessage(error: unknown): string {
       return 'Não foi possível conectar à API. Verifique sua conexão e tente novamente.';
     case 404:
       return 'Município não encontrado.';
+    case 429:
+      return 'Muitas consultas em pouco tempo. Aguarde alguns minutos e tente novamente. Cidades já consultadas antes continuam disponíveis.';
     case 503:
       return 'A fonte de dados (InfoDengue) está indisponível no momento e esta cidade ainda não tem dados salvos. Tente novamente em instantes.';
     default:

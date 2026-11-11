@@ -187,6 +187,7 @@ describe('errorMessage', () => {
   it('traduz os status mais comuns', () => {
     expect(errorMessage(new HttpErrorResponse({ status: 0 }))).toContain('conectar');
     expect(errorMessage(new HttpErrorResponse({ status: 404 }))).toContain('não encontrado');
+    expect(errorMessage(new HttpErrorResponse({ status: 429 }))).toContain('Muitas consultas');
     expect(errorMessage(new HttpErrorResponse({ status: 503 }))).toContain('indisponível');
     expect(errorMessage(new HttpErrorResponse({ status: 500 }))).toContain('erro');
     expect(errorMessage(new Error('x'))).toContain('erro');
